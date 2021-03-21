@@ -119,7 +119,7 @@
 
 🔑 감싸고 있는 순서 : 하드웨어 < 커널 < system calls < 유틸리티
 
-- 단일 구조 운영체제
+- **단일 구조 운영체제**
   : 커널 또는 운영체제 기능을 거대한 하나의 커널로 모아놓은 것  
   (메모리 관리, 파일 시스템, 입출력, 프로세서 스케줄러 등이 하나의 커널에)
 
@@ -130,10 +130,67 @@
    → 커널의 거대화 => 유지보수가 어려움  
    (main.js 안에 모든 기능을 때려넣은 느낌이라고 생각하면 됨)
 
-- 계층 구조 운영체제
+- **계층 구조 운영체제**
 
   <img src="https://lh3.googleusercontent.com/proxy/LFxi-Q-Z24LaZD6xflEFbSihHGlg7vlC7lH1WbM7k44fY2OEUu7Hpn1_4pchsv1xnYPD-H3O1TPwVePVydm2O12o1hUnulOTkynMsEVInODW_XTGxvEnHCjl9QPGBI75czI9jg9mfdiGIFEtaL17uX-AX7l7b36hdlHun300XZnHzCi086MVSs-ssnp44y3eu07Q" width="360px">   
      
   💖 장점   
   → 모듈화 : 계층간 검증 및 수정 용이
   → 설계 및 구현의 단순화
+
+  👹 단점  
+  → 단일구조 대비 성능 저하 - 원하는 기능 수행을 위해 여러 계층을 거쳐야 함.
+
+- **마이크로 커널 구조**  
+  → 커널의 크기 최소화 : 필수 기능만 포함하고 기타 기능은 사용자 영역에서 수행
+
+### 🌞운영체제의 기능 : "관리"
+
+1. 프로세스(Process) 관리
+
+   - 프로세스(Process)  
+     → 커널에 등록된 실행 단위 (실행 중인 프로그램)  
+     → 사용자 요청/ 프로그램의 수행 **주체** (entity)
+
+   - OS의 프로세스 관리 기능  
+     → 생성/삭제, 상태관리  
+     → 자원 할당  
+     → 프로세스 간 통신 및 동기화(synchronization)  
+     → 교착상태(deadlock) 해결 : 여러개의 프로세스가 하나의 자원을 가지고 싸우는 상태를 교착상태라고 함.
+
+   - 프로세스 정보 관리  
+     → PCB
+
+2. 프로세서(Processor) 관리
+
+   - 프로세서는 CPU라고 생각해도 무방함
+   - 프로세스 스케줄링
+
+3. 메모리(Memory) 관리
+
+   - 주기억장치(memory) : 작업을 위한 프로그램 및 데이터를 올려놓는 공간
+
+   - Multi-user, Multi-tasking 시스템
+     → 프로세스에 대한 메모리 할당 및 회수  
+     → 메모리 여유 공간 관리  
+     → 각 프로세스의 할당 메모리 영역 접근 보호
+
+   - 메모리 할당 방법(schema)  
+     → 전체 적재 - 장점: 구현이 간단함 / 단점: 공간이 제한적  
+     → 일부 적재(virtual memory concept) - 장점: 메모리 효율적 사용 / 단점: 보조기억 장치 접근 필요
+
+4. 파일(file) 관리
+
+   - 파일 : 논리적 데이터 저장 단위
+   - 사용자 및 시스템의 파일 관리
+   - 디렉토리 구조 지원
+   - 파일 관리 기능
+
+5. 입출력 장치(I/O devices) 관리
+
+   - 입출력 과정은 반드시 OS를 거쳐야 한다.
+
+6. 기타
+   - Disk
+   - Networking
+   - Security and Protection system 등
