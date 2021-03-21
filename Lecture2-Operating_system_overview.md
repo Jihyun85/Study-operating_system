@@ -1,4 +1,4 @@
-## Operating System Overview
+## Lecture2 Operating System Overview
 
 ### (운영체제 개요)
 
