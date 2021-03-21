@@ -89,3 +89,59 @@
    → **모든 자원 반납 후**, 커널 내에 일부 PCB정보만 남아 있는 상태 (이후 프로세스 관리를 위해 보관)  
    → zombie state라고도 하는 이유, 프로세스가 끝났는데 termanted 상태로 잠시 살아있어서!  
    → running에서 terminated 상태가 되는 것 - exit
+
+### 🌞인터럽트 (Interrupt)
+
+→ **Unexpected, external events (예상치 못한, 외부에서 발생한 이벤트)**  
+(→ 방해받음)
+
+- 인터럽트의 종류
+
+  - I/O interrupt : 예상하지 못한 순간에 마우스나 키보드 클릭 등
+  - Clock interrupt : CPU 등의 clock
+  - Console interrupt : 콘솔창
+  - Program check intterrupt
+  - Machine check interrupt
+  - Inter-process interrupt
+  - System call Interrupt
+
+- 인터럽트 처리 과정  
+  인터럽트 발생  
+  ↓  
+  (커널 개입)  
+  프로세스 중단 및 context saving(진행 상황 저장)  
+  ↓  
+  인터럽트 처리(interrupt handling)  
+  ↓  
+  interrupt handling  
+  (인터럽트 발생 장소, 원인 파악 → 인터럽트 처리/무시 여부 결정)  
+  ↓  
+  interrupt service  
+  (인터럽트 서비스 루틴(interrupt service routine)호출)  
+  ↓  
+  ready 상태에 있던 프로세스 중 하나가 들어옴(기존 프로세스가 아닐 수 있다.)
+
+### 🌞Context Switching (문맥 교환, 흐름 저장)
+
+- Context : 프로세스와 관련된 정보들의 집합
+
+  - CPU register context => in CPU
+  - Code & data, Stack, PCB => in memory
+
+- Context saving : 현재 프로세스의 Register context를 저장하는 작업  
+  → 인터럽트에 의해 CPU에서 일하던 것을 뺏김 - memory의 PCB에 저장
+
+- Context restoring  
+  → Register context를 프로세스로 복구하는 작업
+
+- Context switching  
+  → 실행 중인 프로세스의 context를 저장하고, 앞으로 실행할 프로세스의 context를 복구 하는 일 (커널의 개입으로 이루어짐)
+
+### 🌞Context Switch Overhead
+
+- Context switching에 소요되는 비용  
+  → OS마다 다름  
+  → OS 성능에 큰 영향을 줌
+
+- 불필요한 Context switching을 줄이는 것이 중요  
+  → **스레드(thread) 사용** 등
