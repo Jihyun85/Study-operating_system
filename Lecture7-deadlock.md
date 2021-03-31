@@ -168,7 +168,7 @@ Deadlock 해결방법 ?
      - Dijkstra's algorithm의 확장
      - 여러 종류의 자원 고려✨
      - 시스템을 항상 safe state로 유지  
-       <img src="https://lh3.googleusercontent.com/proxy/UTaSGWk_vZ2PUdxwujqQQseTX8oLw6ffIhS3FxFz0MdsMQgvXM0oKTfg_rKvVffRkyrWGRmHppnp" alt="banker's algorithm" width="500px">
+       <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2016/01/safety.png" alt="deadlock avoidance" width="500px">
 
 - 📒Deadlock Avoidance 정리
   - Deadlock을 막을 수 있음
@@ -209,7 +209,7 @@ Deadlock 해결방법 ?
   - Process termination
 
     - Deadlock 상태인 프로세스 중 **일부** 종료
-    - Terminatino cost model : 종료 시킬 deadlock 상태의 프로세스 선택  
+    - Termination cost model : 종료 시킬 deadlock 상태의 프로세스 선택  
       → Termination cost
 
       - 우선순위 / The priority
