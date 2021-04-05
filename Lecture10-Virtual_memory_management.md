@@ -189,6 +189,7 @@
 **※Locality를 활용하는 알고리즘 시작**
 
 4. LRU (Least Recently Used) Algorithm
+
    - 가장 오랫동안 참조되지 않은 page를 교체
    - page 참조 시 마다 시간을 기록해야 함
    - MIN algorithm에 근접한 성능을 보여줌
@@ -197,3 +198,37 @@
      - 참조 시마다 시간 기록 필요 (Overhead) → 간소화된 정보 수집으로 해소 가능
      - Loop 실행에 필요한 크기보다 작은 수의 page frame이 할당 된 경우, page fault 수가 급격히 증가함  
        → Allocation 기법에서 해결이 필요!
+
+5. LFU (Least Frequently Used) Algorithm
+
+   - 가장 참조 횟수가 적은 page를 교체
+   - page 참조 시 마다, *참조 횟수*를 누적 시켜야 함
+   - Locality 활용
+   - 👹단점
+     - 최근 척제된 참조될 가능성이 높인 page가 교체될 가능성이 있음
+     - 참조 횟수 누적 overhead
+
+6. NUR (Not Used Recently) Algorithm
+
+   - LRU approximation scheme  
+     : LUR보다 적은 overhead로 비슷한 성능 달성 목적
+   - Bit vector 사용  
+     → Reference bit vector (r), Update bit vector (m)
+   - 교체 순서
+     - ① (r, m) = (0, 0)
+     - ② (r, m) = (0, 1)
+     - ③ (r, m) = (1, 0)
+     - ④ (r, m) = (1, 1)
+
+7. Clock Algorithm : 실제로 NUR을 적용한 예
+
+   - IBM VM/370 OS
+   - Reference bit 사용함 : 주기적인 초기화 없음
+   - 0이면 교체, 1이면 초기화 후 pointer 이동
+   - 먼저 적재된 page가 교체될 가능성이 높음 - FIFO와 유사
+   - Reference bit를 사용하여 교체 페이지 결정 - LRU, NUR과 유사
+
+8. Second Change Algorithm
+   - Clock algorithm과 유사
+   - Update bit (m)도 함께 고려 함
+     - 현재 가리키고 있는 page의 (r, m) 확인
