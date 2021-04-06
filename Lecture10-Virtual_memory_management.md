@@ -157,7 +157,7 @@
 > 1. Fixed Allocation
 > 2. Variable Allocation
 
-### 🔑 Fixed Allocation
+### 🔑 Replacement Strategies - Fixed Allocation
 
 (정해진 수의 영역을 할당했을 때의 교체 방법)
 
@@ -205,7 +205,7 @@
    - page 참조 시 마다, *참조 횟수*를 누적 시켜야 함
    - Locality 활용
    - 👹단점
-     - 최근 척제된 참조될 가능성이 높인 page가 교체될 가능성이 있음
+     - 최근 적제된 참조될 가능성이 높은 page가 교체될 가능성이 있음
      - 참조 횟수 누적 overhead
 
 6. NUR (Not Used Recently) Algorithm
@@ -232,3 +232,52 @@
    - Clock algorithm과 유사
    - Update bit (m)도 함께 고려 함
      - 현재 가리키고 있는 page의 (r, m) 확인
+
+### 🔑 Replacement Strategies - Variable Allocation
+
+: 할당하는 페이지 수가 가변적임
+
+1. Working Set(WS) Algorithm
+
+   - **👑Working set**  
+     → **Process가 특정 시점에 자주 참조하는 page들의 집합** ⇒ locality✨  
+     → 최근 _일정시간 동안(Δ)_ 참조된 page들의 집합  
+     → 시간에 따라 변함  
+     → W(t, Δ)
+     - The working set of a process at time t
+     - Time interval [ t - Δ, t ] 동안 참조된 pages들의 집합
+     - Δ: **window** size, system parameter
+
+   > ⭐[ t - Δ, t ] 의 시간을 **window**라고 한다!  
+   > window 내 최소 페이지 수 : 1 / 최대 페이지 수 : Δ + 1
+
+   - Locality 기반
+   - Working set을 메모리에 항상 유지
+     - Page fault rate (thrashing) 감소
+     - 시스템 성능 향상
+   - Window size(Δ)는 고정!
+
+     - Memory allocation은 가변
+     - Δ값이 성능을 결정 짓는 중요한 요소
+
+   - Window size(Δ)
+     : Δ값이 커질수록 working set 사이즈가 커지지만 기울기는 점차 줄어듬  
+      ⇒ Locality⭐  
+     <img src="https://blueflamingo.tech/2020/08/03/Memory-Management/work.png" alt="working set size" width="500px">
+
+   - working set transition  
+     <img src="https://media.vlpt.us/images/monsterkos/post/43043a37-58ab-4bb4-83ce-5c8a72a31a5d/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202020-09-22%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%203.57.56.png" width="500px" alt="working set transition">
+
+   - 성능 평가
+
+     - Page fault 수 외 다른 지표도 함께 봐야 함(할당 수가 다르기 때문)
+     - Example ) 평균 할당 page frame 수
+
+   - 특성
+
+     - 적재 되는 page가 없더라도, 메모리를 반납하는 page가 있을 수 있음
+     - 새로 적재되는 page가 있더라도, 교체되는 page가 없을 수 있음
+
+   - 👹단점
+     - Working set management Overhead (계속 지켜보고 있어야 함)
+     - 메모리를 계속 반납
