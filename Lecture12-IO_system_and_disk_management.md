@@ -108,7 +108,7 @@
 
 ### 🌞 Optimizing Seek time
 
-1. First Come First Servies (FCFS)  
+1. First Come First Services (FCFS)  
    : 요청이 도착한 순서에 따라 처리  
     → 👑장점 : Simple, 공평한 처리 기법(무한 대기 방지)  
     → 👹단점 : 최적 성능 달성에 대한 고려가 없음
@@ -116,12 +116,16 @@
 
 2. Shortest Seek Time First (SSTF)  
    : 현재 head 위치에서 가장 가까운 요청 먼저 처리  
-    → 👑장점 + Throughput ↑  
-    + 평균 응답 시간 ↓  
-    → 👹단점  
-    + Predictability ↑ (언제 처리될 지 알 수 없음)  
-    + Starvation 현상 발생 가능  
-    → 일괄처리 시스템에 적합!
+    → 👑장점
+
+   - Throughput ↑
+   - 평균 응답 시간 ↓
+
+   → 👹단점
+
+   - Predictability ↑ (언제 처리될 지 알 수 없음)
+   - Starvation 현상 발생 가능  
+     → 일괄처리 시스템에 적합!
 
 3. Scan Scheduling
 
@@ -131,8 +135,10 @@
    → 👑장점
 
    - SSTF의 starvation 문제 해결
-   - Throughput 및 평균 응답시간 우수  
-     → 👹단점
+   - Throughput 및 평균 응답시간 우수
+
+   → 👹단점
+
    - 진행 방향 반대쪽 끝의 요청들의 응답시간 ↑
 
 4. C-Scan Scheduling
@@ -174,3 +180,62 @@
 
 - Eschenbach scheduling  
   : starvation 문제를 해결하기 위해 나온 알고리즘
+
+### 🌞RAID Architecture
+
+- Redundant Array of Inexpensive Disks (RAID) : 비싸지 않은 Disk들을 여러게 묶은 것
+- 여러 개의 물리 disk를 하나의 논리 disk로 사용  
+  → OS support, RAID controller
+- Disk system의 성능 향상을 위해 사용  
+  → Performance (access speed)  
+  → Reliability(안전하게 보관)
+
+#### **RAID 0**
+
+- Disk striping  
+  : 논리적인 한 block을 일정한 크기에 나누어 각 disk에 나누어 저장  
+  ( Disk system에서는 데이터 전체를 *block들의 나열*로 취급 ⇒ 그 block을 또 쪼개어 각 disk에 나누어 저장하는 방법 )
+- 모든 disk에 입출력 부하 균등 분배  
+  → Parallel access  
+  → Performance 향상
+- 한 Disk에서 장애 시, 데이터 손실 발생 ⇒ Low reliability👹
+
+#### **RAID 1** : reliability에 초점
+
+- Disk mirroring  
+  : 동일한 데이터를 mirroring disk에 중복 저장
+- 최소 2개의 disk로 구성  
+  : 입출력은 둘 중 어느 disk에서도 가능
+- 👑장점 : 한 disk에 장애가 생겨도 데이터 손실X
+- 👹단점 : 가용 disk 용량 = (전체 disk 용량 / 2)
+
+#### **RAID 3**
+
+- RAID 0 + parity disk(error detection\_해밍 코드 이용)
+  - Byte 단위 분할 저장
+  - 모든 disk에 입출력 부하 균등 분배  
+    : Parallel access Performance 향상
+- 👑장점 : 한 disk에 장애 발생 시, parity 정보를 이용하여 복구
+- 👹단점 : Write 시 parity 계산 필요
+  - Overhead
+  - Write가 몰릴 시, 병목현상 발생 가능
+
+#### **RAID 4**
+
+- RAID 3과 유사, 단 *Block 단위*로 분산 저장
+  - 독립된 access 방법
+  - Disk간 균등 분배가 되지 않을 수 있음
+  - 한 disk에 장애 발생 시, parity 정보를 이용하여 복구
+  - Write 시 parity 계산 필요  
+    : Overhead / Write가 몰릴 시 병목현상 발생 가능
+- 병목 현상으로 성능 저하 가능 (한 disk에 입출력이 몰릴 때)
+
+#### **RAID 5**
+
+: RAID 4에서 parity가 망가지면 문제가 되는 점을 보완
+
+- RAID 4와 유사  
+  : 독립된 access 방법
+- ⭐Parity정보를 각 disk들에 분산 저장  
+  → Parity disk의 병목현상 문제 해소
+- ⭐현재 가장 널리 사용되는 RAID level 중 하나
